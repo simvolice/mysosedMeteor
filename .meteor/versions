@@ -53,7 +53,6 @@ spacebars@1.0.12
 spacebars-compiler@1.0.12
 standard-minifier-css@1.1.8
 standard-minifier-js@1.1.8
-tanis:bootstrap-social@0.1.2
 templating@1.1.14
 templating-tools@1.0.4
 tracker@1.1.0

@@ -4,7 +4,13 @@
 
 
 
-import React, { Component } from 'react';
+import React, {PropTypes, Component} from 'react';
+import { render } from 'react-dom';
+
+import shouldPureComponentUpdate from 'react-pure-render/function';
+
+import GoogleMap from 'google-map-react';
+import MyGreatPlace from './my_great_place.jsx';
 
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
@@ -14,8 +20,23 @@ import Dialog from 'material-ui/Dialog';
 import Divider from 'material-ui/Divider';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 
+
+
+
+
 export default class App extends Component{
 
+
+
+
+
+
+
+    shouldComponentUpdate (){
+
+       return shouldPureComponentUpdate;
+
+    }
 
     constructor(props) {
         super(props);
@@ -24,7 +45,13 @@ export default class App extends Component{
 
 
         this.state = {
-            open: false
+            open: false,
+
+            center: [59.938043, 30.337157],
+            zoom: 9,
+            greatPlaceCoords: {lat: 59.724465, lng: 30.080121},
+            apiKey: 'AIzaSyCcEv0Paipyu82492pgbviGWCbYWmo7jP4'
+
         };
 
 
@@ -37,12 +64,62 @@ export default class App extends Component{
 
     handleOpen (e) {
         this.setState({open: true});
+
+
+
+
+
     };
 
     handleClose (e)  {
         this.setState({open: false});
     };
 
+
+
+
+
+
+
+    generateMarker() {
+
+
+
+        let MarkersCoordiante = [{lat: 59.724465, lng: 30.080121}, {lat:51.124699, lng:71.421928}];
+
+
+        return(
+            MarkersCoordiante.map((val , i) => (
+
+
+
+
+
+
+                    <MyGreatPlace {...val} text={i} key={i}/>
+
+
+
+
+
+
+                )
+            )
+        )
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
 
 
 
@@ -54,8 +131,14 @@ export default class App extends Component{
 
 
 
-        return(
+      const styleMap = {
 
+
+          display: "table-row"
+
+      };
+
+        return(
 
 
             <div className="container-fluid">
@@ -80,7 +163,7 @@ export default class App extends Component{
                     >
 
 
-                       <Divider/>
+                        <Divider/>
 
 
 
@@ -174,9 +257,56 @@ export default class App extends Component{
 
 
 
+                <div className="row">
+
+
+
+
+                    <GoogleMap
+                        bootstrapURLKeys={{key: this.state.apiKey}}
+                        center={this.state.center}
+                        zoom={this.state.zoom} style={styleMap}>
+
+
+
+                        {this.generateMarker()}
+
+
+
+
+                    </GoogleMap>
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             </div>
+
+
+
+
 
 
 
