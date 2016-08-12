@@ -12,7 +12,8 @@ import shouldPureComponentUpdate from 'react-pure-render/function';
 import GoogleMap from 'google-map-react';
 
 
-import MyGreatPlace from './my_great_place.jsx';
+import MarkerMe from './MarkerMe.jsx';
+import MarkerOther from './MarkerOther';
 
 
 import IconButton from 'material-ui/IconButton';
@@ -29,7 +30,15 @@ import List from 'material-ui/List/List';
 import ListItem from 'material-ui/List/ListItem';
 import OwlCarousel from 'react-owl-carousel';
 import TextField from 'material-ui/TextField';
-import Paper from 'material-ui/Paper';
+
+
+
+//TODO Сохранение текущих координат в LocalStorage
+//TODO Сохранение в LocalStorage флага появление первого окна, не показывать его в следующий раз
+//TODO Перекрасить лэйблы в монолитные цвета
+//TODO Сделать окно мой профиль
+//TODO Сделать окно Регистрация
+
 
 export default class App extends Component{
 
@@ -47,6 +56,45 @@ export default class App extends Component{
     }
 
 
+    componentDidMount(){
+
+
+        var options = {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+        };
+
+        function success(pos) {
+            var crd = pos.coords;
+
+
+
+
+            console.log('Latitude : ' + crd.latitude);
+            console.log('Longitude: ' + crd.longitude);
+
+
+
+
+
+
+
+
+
+
+        }
+
+        function error(err) {
+            console.warn('ERROR(' + err.code + '): ' + err.message);
+        }
+
+        navigator.geolocation.getCurrentPosition(success, error, options);
+
+
+
+
+    }
 
 
 
@@ -117,7 +165,7 @@ export default class App extends Component{
 
 
 
-                    <MyGreatPlace {...val} text={i} key={i}/>
+                    <MarkerMe {...val} key={i}/>
 
 
 
@@ -247,12 +295,6 @@ export default class App extends Component{
         };
 
 
-        const styleLogo = {
-
-            color: "#00E2FF"
-
-
-        };
 
 
         return(
@@ -638,8 +680,15 @@ export default class App extends Component{
 
 
 
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                        <p>
 
+                                          МОЙ СОСЕД - это сервис помогающий заработать деньги не выходя из дома и сближающий людей, живущих рядом.
+
+
+                                        </p>
+
+
+                                        <RaisedButton label="ДАЛЕЕ" primary={true} onClick={() => this.refs.slidermain.next()}/>
 
 
 
@@ -667,7 +716,11 @@ export default class App extends Component{
                                             hintText="Ваш пароль"
                                             floatingLabelText="Ваш пароль"
                                             type="password"
-                                        /><br /><br /><br />
+                                        />
+
+
+
+                                        <br /><br /><br />
 
 
 
